@@ -71,15 +71,38 @@ export default function CreatePostScreen({ navigation }: Props) {
         return;
       }
 
-      const currentLocation = await Location.getCurrentPositionAsync({});
-      const geocode = await Location.reverseGeocodeAsync({
-        latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude,
-      });
+      // 먼저 실시간 위치 시도 (타임아웃 5초)
+      let currentLocation: Location.LocationObject | null = null;
+      try {
+        const locationPromise = Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
+        const timeoutPromise = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('타임아웃')), 2000)
+        );
+        currentLocation = await Promise.race([locationPromise, timeoutPromise]);
+      } catch {
+        // 실시간 위치 실패 시 마지막 위치로 fallback
+        currentLocation = await Location.getLastKnownPositionAsync({});
+      }
 
-      const address = geocode[0]
-        ? `${geocode[0].city || ''} ${geocode[0].district || ''}`
-        : undefined;
+      if (!currentLocation) {
+        Alert.alert('오류', '위치를 가져올 수 없습니다. 에뮬레이터 설정에서 위치를 설정해주세요.');
+        return;
+      }
+
+      let address: string | undefined;
+      try {
+        const geocode = await Location.reverseGeocodeAsync({
+          latitude: currentLocation.coords.latitude,
+          longitude: currentLocation.coords.longitude,
+        });
+        address = geocode[0]
+          ? `${geocode[0].city || ''} ${geocode[0].district || ''}`
+          : undefined;
+      } catch {
+        // geocode 실패해도 좌표는 사용
+      }
 
       setLocation({
         latitude: currentLocation.coords.latitude,

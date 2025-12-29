@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-start",
-    "slug": "rn-start",
+    "name": "react-native-sns",
+    "slug": "react-native-sns",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
