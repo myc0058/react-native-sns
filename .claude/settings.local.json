@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd /c \"cd e:\\\\projects\\\\react-native-sns\\\\android && gradlew.bat --stop\")",
+      "Bash(cmd /c \"rmdir /s /q E:\\\\projects\\\\react-native-sns\\\\android\")",
+      "Bash(npx expo prebuild:*)",
+      "Bash(npm run e2e:build:*)"
+    ]
+  }
+}

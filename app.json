@@ -33,7 +33,8 @@
         "WRITE_EXTERNAL_STORAGE",
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
-      ]
+      ],
+      "package": "com.myc0058.reactnativesns"
     },
     "web": {
       "favicon": "./assets/favicon.png"

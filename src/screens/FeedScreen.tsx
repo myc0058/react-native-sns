@@ -44,6 +44,7 @@ export default function FeedScreen({ navigation }: Props) {
         }
       />
       <FAB
+        testID="fab-create-post"
         icon="plus"
         style={[styles.fab, { backgroundColor: theme.colors.primary }]}
         onPress={() => navigation.navigate('CreatePost')}
